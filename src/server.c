@@ -6,6 +6,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+// #include <opencv2/opencv.hpp>
 
 #define MAX 10*1024
 #define PORT 6666
