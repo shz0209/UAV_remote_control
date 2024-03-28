@@ -9,6 +9,8 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <termios.h>
+#include "../include/get_video.h"
+
 
 #define HOST "127.0.0.1"        // 根据你服务器的IP地址修改
 #define PORT 6666                   // 根据你服务器进程绑定的端口号修改
@@ -18,6 +20,8 @@
 
 int main(void)
 {
+    get_video();
+    
     struct termios oldt, newt;
     int ch;
 

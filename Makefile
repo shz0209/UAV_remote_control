@@ -1,8 +1,9 @@
-CC:=gcc
+CC:=g++
 SRC_DIR=./src
 OBJ_DIR=./obj
 BIN_DIR=./bin
 TAR=$(BIN_DIR)/client
+LDFLAGS := $(shell pkg-config --libs opencv)
 
 SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
@@ -15,13 +16,17 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 # 链接目标文件生成可执行文件
 $(TAR):$(OBJ_FILES)
-	$(CC) $^ -o $@
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+clean:
+	rm -rf $(OBJ_DIR)/*.o $(TAR)
+
 
 # $(TAR_SERVER):$(OBJ_FILES)
 # 	$(CC) $^ -o $@
 
 # clean:
-#     rm -rf $(OBJ_DIR)
+#     rm -f $(OBJ_FILES)
 # all:client,server
 
 # .PHONY:all
