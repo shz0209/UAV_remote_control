@@ -4,6 +4,6 @@
 #include <opencv2/opencv.hpp>
 #include <stdio.h>
 
-int get_video();
+void* get_video(void* arg);
 
 #endif

@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <termios.h>
+#include <pthread.h>
 #include "../include/get_video.h"
 
 
@@ -18,9 +19,15 @@
 #define BUFFER_SIZ 1           // 4k的数据区域
 
 
-int main(void)
+int main()
 {
-    get_video();
+    pthread_t thread; // 用于存放线程标识符的变量
+    // 创建并启动摄像头捕获线程
+    int result = pthread_create(&thread,NULL,get_video,NULL);
+    if (result != 0) {  
+        fprintf(stderr, "Error: Failed to create capture thread.\n");
+        return 1;
+    }
     
     struct termios oldt, newt;
     int ch;
@@ -65,7 +72,7 @@ int main(void)
         // printf("please enter some text: ");
         //fgets(buffer, BUFFER_SIZ, stdin);
         buffer[0]=ch;
-
+        
         //输入了end，退出循环（程序）
         if(strncmp(buffer, "end", 3) == 0)
             break;
@@ -74,5 +81,9 @@ int main(void)
     }
 
     close(sockfd);
+    pthread_join(thread, NULL);
+    printf("Main thread: Capture thread has finished.\n");
+    return 0;
     exit(0);
+
 }

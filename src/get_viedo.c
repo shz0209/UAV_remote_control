@@ -1,31 +1,22 @@
 #include "../include/get_video.h"
 
-int get_video()
+void* get_video(void* arg)
 {
-    printf("get video successfully");
-    cv::VideoCapture cap;
-    cap.open(0);
+    
+    cv::VideoCapture cap(0);
 
     if (!cap.isOpened()) {
         printf("Error: Couldn't open the camera.\n");
-        return -1;
+        return NULL;
     }
-    // cv::namedWindow("Camera", cv::WINDOW_AUTOSIZE);
-
+    cv::Mat frame;
     while (1) 
     {
-        cv::Mat frame;
-        // cap >> frame;
-        // cap.read(frame);
-        do
+        cap>>frame;
+        if (frame.empty()) 
         {
-            cap>>frame;
-            if (frame.empty()) {
-            std::cerr << "Error: Couldn't read a frame from the camera." << std::endl;
-            }
-        }while(frame.empty());
-
-        
+        std::cerr << "Error: Couldn't read a frame from the camera." << std::endl;
+        }
 
         cv::imshow("Received Image", frame);
         char key = cv::waitKey(10);
@@ -33,9 +24,8 @@ int get_video()
             break;
         }
         
-        
-        // 获取图像数据大小
     }
     cv::destroyAllWindows();
     cap.release();
+    return NULL;
 }
