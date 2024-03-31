@@ -23,27 +23,21 @@ int main()
 {
     pthread_t thread; // 用于存放线程标识符的变量
     // 创建并启动摄像头捕获线程
-    int result = pthread_create(&thread,NULL,get_video,NULL);
-    if (result != 0) {  
-        fprintf(stderr, "Error: Failed to create capture thread.\n");
-        return 1;
-    }
-
     struct termios oldt, newt;
     int ch;
+    int sockfd, ret;
+    struct sockaddr_in server;
+    char buffer[BUFFER_SIZ];        //用于保存输入的文本
+
 
     /* 获取当前终端设置 */
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
 
-    /* 将终端设置为不缓冲和不回显模式 */
+    /* 将终端设置为不缓冲模式 */
     newt.c_lflag &= ~(ICANON);
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
-
-    int sockfd, ret;
-    struct sockaddr_in server;
-    char buffer[BUFFER_SIZ];        //用于保存输入的文本
 
     // 创建套接字描述符
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
@@ -64,17 +58,25 @@ int main()
     }
 
     printf("connect server success...\n");
-    printf("please enter some text: ");
+    printf("Please enter your command: ");
 
     while (1) {
         ch = getchar();
         buffer[0]=ch;
         
         //输入了end，退出循环（程序）
-        if(strncmp(buffer, "end", 3) == 0)
-            break;
-
+        // if(strncmp(buffer, "end", 3) == 0)
+        //     break;
+        if(ch=='v')
+        {
+            int result = pthread_create(&thread,NULL,get_video,NULL);
+            if (result != 0) {  
+                fprintf(stderr, "Error: Failed to create capture thread.\n");
+                return 1;
+            }
+        }
         write(sockfd, buffer, sizeof(buffer));
+
     }
 
     close(sockfd);
