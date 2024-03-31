@@ -28,7 +28,7 @@ int main()
         fprintf(stderr, "Error: Failed to create capture thread.\n");
         return 1;
     }
-    
+
     struct termios oldt, newt;
     int ch;
 
@@ -68,9 +68,6 @@ int main()
 
     while (1) {
         ch = getchar();
-
-        // printf("please enter some text: ");
-        //fgets(buffer, BUFFER_SIZ, stdin);
         buffer[0]=ch;
         
         //输入了end，退出循环（程序）
@@ -83,7 +80,5 @@ int main()
     close(sockfd);
     pthread_join(thread, NULL);
     printf("Main thread: Capture thread has finished.\n");
-    return 0;
     exit(0);
-
 }

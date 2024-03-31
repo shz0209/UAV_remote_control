@@ -3,7 +3,8 @@
 void* get_video(void* arg)
 {
     
-    cv::VideoCapture cap(0);
+    cv::VideoCapture cap("http://192.168.134.155:8081/");
+    // cv::VideoCapture cap(0);
 
     if (!cap.isOpened()) {
         printf("Error: Couldn't open the camera.\n");
