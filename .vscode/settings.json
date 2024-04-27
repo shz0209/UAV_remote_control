@@ -60,6 +60,8 @@
     "*.ipp": "c",
     "array": "c",
     "hash_map": "c",
-    "string_view": "c"
+    "string_view": "c",
+    "highgui.hpp": "c",
+    "opencv.hpp": "c"
   }
 }

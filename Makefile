@@ -1,10 +1,12 @@
-CC:=g++
+CC:=arm-linux-gnueabihf-g++-7
+#CC:=g++
 SRC_DIR=./src
 OBJ_DIR=./obj
 BIN_DIR=./bin
 TAR=$(BIN_DIR)/client
-LDFLAGS := $(shell pkg-config --libs opencv) -lpthread
+LDFLAGS := -lopencv_video -lopencv_highgui -lopencv_videoio -lopencv_imgcodecs -lopencv_imgproc  -lopencv_core -llibopenjp2 -llibpng -llibwebp -littnotify -llibjpeg-turbo -llibtiff -lzlib
 
+#  -lopencv_imgcodecs -lopencv_photo -lopencv_imgproc 
 SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
@@ -16,7 +18,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 # 链接目标文件生成可执行文件
 $(TAR):$(OBJ_FILES)
-	$(CC) $^ -o $@ $(LDFLAGS)
+	$(CC) $^ -o $@ -L./lib $(LDFLAGS) -lpthread -ldl
 
 clean:
 	rm -rf $(OBJ_DIR)/*.o $(TAR)
