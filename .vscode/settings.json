@@ -62,6 +62,9 @@
     "hash_map": "c",
     "string_view": "c",
     "highgui.hpp": "c",
-    "opencv.hpp": "c"
+    "opencv.hpp": "c",
+    "video.hpp": "c",
+    "core.hpp": "c",
+    "opencv_modules.hpp": "c"
   }
 }

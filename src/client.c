@@ -59,11 +59,10 @@ int main()
         ch = getchar();
         buffer[0]=ch;
         
-        //输入了end，退出循环（程序）
-        // if(strncmp(buffer, "end", 3) == 0)
-        //     break;
+
         if(ch=='v')
         {
+            //如果键盘输入v，则创建新线程，在新线程中使用opencv开启摄像头，避免阻塞
             int result = pthread_create(&thread,NULL,get_video,NULL);
             if (result != 0) {  
                 fprintf(stderr, "Error: Failed to create capture thread.\n");
